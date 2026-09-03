@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: backend-idsarl
+
+  # Configuration PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/idsarl_db
+    username: postgres
+    password: votre_mot_de_passe
+    driver-class-name: org.postgresql.Driver
+
+  # Configuration JPA
+  jpa:
+    hibernate:
+      ddl-auto: update  # En développement, passez à "validate" ou "none" en production
+    show-sql: true      # Affiche les requêtes SQL dans les logs (à désactiver en prod)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+
+  # Configuration des logs (niveau de logging)
+  logging:
+    level:
+      com.idsarl.backend: DEBUG
+      org.springframework.security: INFO
+      org.hibernate.SQL: DEBUG
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    pattern:
+      console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# Configuration JWT
+jwt:
+  secret: MonSuperSecretJWT2024!@#$%^&*()_+1234567890  # ⚠️ À remplacer par une clé sécurisée (32 caractères minimum, base64 recommandé)
+  access-token-expiration: 900000       # 15 minutes (en millisecondes)
+  refresh-token-expiration: 604800000   # 7 jours (en millisecondes)
+
+# Configuration du chiffrement AES
+encryption:
+  secret: TWFDbMOpQUVTMjU2Qml0c1N1cGVyU2VjcmV0ZTIwMjQ=  # ⚠️ À remplacer par une clé AES 256 bits encodée en Base64 (ex: 32 bytes encodés)
+
+# Port du serveur (optionnel, 8080 par défaut)
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never  # Évite d'exposer les stacktraces en production
+
+# Configuration pour les dates (JSON)
+spring.jackson:
+  serialization:
+    write-dates-as-timestamps: false
+  time-zone: Europe/Paris
