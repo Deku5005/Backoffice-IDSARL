@@ -1,0 +1,390 @@
+📌 Contexte du scénario
+Administrateur : admin@idsarl.com (Admin123!) – gère toute l'application.
+
+Responsable finance : finance@idsarl.com (Finance123!) – gère les comptes et les mouvements.
+
+Commercial : commercial@idsarl.com (Com123!) – gère les clients et les déploiements.
+
+Développeur : dev@idsarl.com (Dev123!) – gère les produits, hébergements, réseaux sociaux et pages de contenu.
+
+Consultation : consult@idsarl.com (Consult123!) – lecture seule du dashboard.
+
+Étape 1 – L'administrateur se connecte
+Endpoint : POST /api/auth/login
+
+Requête :
+
+json
+{
+  "email": "admin@idsarl.com",
+  "motDePasse": "Admin123!"
+}
+Réponse (stockez accessToken pour la suite) :
+
+json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
+  "email": "admin@idsarl.com",
+  "role": "ADMIN"
+}
+Étape 2 – Création des utilisateurs (ADMIN)
+Endpoint : POST /api/users (avec le token ADMIN)
+
+2.1 Créer le responsable finance
+json
+{
+  "nom": "Jean Finance",
+  "email": "finance@idsarl.com",
+  "motDePasse": "Finance123!",
+  "role": "FINANCE",
+  "statut": "ACTIF"
+}
+2.2 Créer le commercial
+json
+{
+  "nom": "Marie Commerce",
+  "email": "commercial@idsarl.com",
+  "motDePasse": "Com123!",
+  "role": "COMMERCIAL",
+  "statut": "ACTIF"
+}
+2.3 Créer le développeur
+json
+{
+  "nom": "Pierre Dev",
+  "email": "dev@idsarl.com",
+  "motDePasse": "Dev123!",
+  "role": "DEVELOPPEUR",
+  "statut": "ACTIF"
+}
+2.4 Créer le consultant (lecture seule)
+json
+{
+  "nom": "Sophie Consult",
+  "email": "consult@idsarl.com",
+  "motDePasse": "Consult123!",
+  "role": "CONSULTATION",
+  "statut": "ACTIF"
+}
+Étape 3 – Le développeur se connecte et crée des produits
+Déconnectez-vous (ou utilisez un nouveau token).
+Endpoint : POST /api/auth/login avec dev@idsarl.com / Dev123!.
+
+3.1 Créer produit "CRM Pro"
+Endpoint : POST /api/products (token DEV)
+
+json
+{
+  "nom": "CRM Pro",
+  "description": "Solution de gestion de la relation client",
+  "technologie": "Java, React, PostgreSQL",
+  "statut": "EN_DEVELOPPEMENT",
+  "historiqueVersions": "1.0.0"
+}
+Réponse : id: 1
+
+3.2 Créer produit "Mobile Stock"
+json
+{
+  "nom": "Mobile Stock",
+  "description": "Application mobile de gestion de stock",
+  "technologie": "Kotlin, Firebase",
+  "statut": "DISPONIBLE",
+  "historiqueVersions": "2.0.0, 2.1.0"
+}
+Réponse : id: 2
+
+3.3 Créer produit "Site Vitrine"
+json
+{
+  "nom": "Site Vitrine",
+  "description": "Site web institutionnel",
+  "technologie": "React, Spring Boot",
+  "statut": "DISPONIBLE",
+  "historiqueVersions": "1.0.0, 1.1.0"
+}
+Réponse : id: 3
+
+Étape 4 – Le développeur crée des hébergements
+Endpoint : POST /api/hostings (token DEV)
+
+4.1 Hébergement du produit 1 (CRM Pro) sur OVH
+json
+{
+  "plateforme": "OVH",
+  "domaine": "crm.idsarl.com",
+  "dateExpiration": "2027-01-15",
+  "cout": 150.00,
+  "produitId": 1
+}
+4.2 Hébergement du produit 2 (Mobile Stock) sur AWS – expire bientôt
+json
+{
+  "plateforme": "AWS",
+  "domaine": "stock.idsarl.com",
+  "dateExpiration": "2026-09-28",   // dans 24 jours
+  "cout": 200.00,
+  "produitId": 2
+}
+4.3 Hébergement du produit 3 (Site Vitrine) sur GCP
+json
+{
+  "plateforme": "Google Cloud",
+  "domaine": "site.idsarl.com",
+  "dateExpiration": "2026-12-20",
+  "cout": 120.00,
+  "produitId": 3
+}
+Étape 5 – Le développeur crée les pages de contenu (site public)
+Endpoint : POST /api/pages (token DEV)
+
+5.1 Page Accueil
+json
+{
+  "type": "ACCUEIL",
+  "titre": "Bienvenue chez IDSARL",
+  "contenu": "Nous innovons pour votre entreprise avec des solutions digitales sur mesure."
+}
+5.2 Page À propos
+json
+{
+  "type": "A_PROPOS",
+  "titre": "Notre histoire",
+  "contenu": "Créée en 2020, IDSARL réunit 15 experts passionnés par la tech."
+}
+5.3 Page Services
+json
+{
+  "type": "SERVICE",
+  "titre": "Nos services",
+  "contenu": "Développement web, mobile, conseil en architecture logicielle."
+}
+Étape 6 – Le développeur gère les réseaux sociaux
+Endpoint : POST /api/social-networks (token DEV)
+
+6.1 Compte Twitter
+json
+{
+  "plateforme": "Twitter",
+  "identifiant": "@idsarl_official",
+  "responsable": "Pierre Dev",
+  "motDePasse": "Twi2024!",
+  "statut": "ACTIF"
+}
+6.2 Compte LinkedIn
+json
+{
+  "plateforme": "LinkedIn",
+  "identifiant": "idsarl-company",
+  "responsable": "Marie Commerce",
+  "motDePasse": "Link2024!",
+  "statut": "ACTIF"
+}
+Étape 7 – Le responsable finance se connecte
+Endpoint : POST /api/auth/login avec finance@idsarl.com / Finance123!.
+
+7.1 Création de deux comptes bancaires
+Endpoint : POST /api/bank-accounts
+
+Compte 1 – BNP :
+
+json
+{
+  "banque": "BNP Paribas",
+  "numero": "FR76 1234 5678 9012 3456 7890 123",
+  "devise": "EUR",
+  "solde": 150000.00
+}
+Compte 2 – Société Générale :
+
+json
+{
+  "banque": "Société Générale",
+  "numero": "FR76 0987 6543 2109 8765 4321 098",
+  "devise": "EUR",
+  "solde": 75000.00
+}
+7.2 Ajouter des mouvements bancaires
+Endpoint : POST /api/bank-movements
+
+– Entrée de 25 000 € sur le compte 1 (vente de licence)
+json
+{
+  "compteId": 1,
+  "type": "ENTREE",
+  "montant": 25000.00,
+  "date": "2026-09-01",
+  "libelle": "Vente licence CRM Pro"
+}
+– Sortie de 5 000 € sur le compte 1 (achat serveur)
+json
+{
+  "compteId": 1,
+  "type": "SORTIE",
+  "montant": 5000.00,
+  "date": "2026-09-02",
+  "libelle": "Achat serveur OVH"
+}
+– Entrée de 12 000 € sur le compte 2 (prestation)
+json
+{
+  "compteId": 2,
+  "type": "ENTREE",
+  "montant": 12000.00,
+  "date": "2026-09-05",
+  "libelle": "Facture client Dupont SA"
+}
+Étape 8 – Le commercial se connecte
+Endpoint : POST /api/auth/login avec commercial@idsarl.com / Com123!.
+
+8.1 Création de deux clients
+Endpoint : POST /api/clients
+
+Client 1 – Dupont SA :
+
+json
+{
+  "nom": "Dupont SA",
+  "contact": "Jean Dupont",
+  "email": "contact@dupont-sa.fr",
+  "telephone": "0123456789"
+}
+Client 2 – Martin SARL :
+
+json
+{
+  "nom": "Martin SARL",
+  "contact": "Marie Martin",
+  "email": "info@martin-sarl.fr",
+  "telephone": "0987654321"
+}
+8.2 Création de déploiements
+Endpoint : POST /api/deployments
+
+– Déployer CRM Pro (produit 1) chez Dupont SA (client 1)
+json
+{
+  "produitId": 1,
+  "clientId": 1,
+  "dateDeploiement": "2026-09-10",
+  "statut": "ACTIF",
+  "montant": 12000.00,
+  "periodicite": "MENSUEL"
+}
+– Déployer Mobile Stock (produit 2) chez Martin SARL (client 2)
+json
+{
+  "produitId": 2,
+  "clientId": 2,
+  "dateDeploiement": "2026-09-15",
+  "statut": "ACTIF",
+  "montant": 8000.00,
+  "periodicite": "ANNUEL"
+}
+– Déployer Site Vitrine (produit 3) chez Dupont SA (client 1)
+json
+{
+  "produitId": 3,
+  "clientId": 1,
+  "dateDeploiement": "2026-09-20",
+  "statut": "EN_PAUSE",
+  "montant": 5000.00,
+  "periodicite": "PONCTUEL"
+}
+Étape 9 – L'administrateur crée des projets
+Endpoint : POST /api/projects (token ADMIN)
+
+9.1 Projet "Refonte CRM" (en cours)
+json
+{
+  "nom": "Refonte CRM Pro",
+  "statut": "EN_COURS",
+  "dateDebut": "2026-08-01",
+  "dateFin": "2026-10-01",
+  "montantApporte": 50000.00,
+  "depenses": 22000.00
+}
+9.2 Projet "Migration BDD" (en retard)
+json
+{
+  "nom": "Migration base de données",
+  "statut": "EN_RETARD",
+  "dateDebut": "2026-06-01",
+  "dateFin": "2026-08-15",
+  "montantApporte": 30000.00,
+  "depenses": 35000.00
+}
+9.3 Projet "Audit sécurité" (terminé)
+json
+{
+  "nom": "Audit sécurité 2026",
+  "statut": "TERMINE",
+  "dateDebut": "2026-07-01",
+  "dateFin": "2026-08-31",
+  "montantApporte": 10000.00,
+  "depenses": 9500.00
+}
+Étape 10 – Consultation du dashboard (tous rôles)
+Endpoint : GET /api/dashboard/stats
+(se connecter avec n'importe quel utilisateur, par ex. consult@idsarl.com)
+
+Réponse attendue (valeurs approximatives) :
+
+json
+{
+  "totalProjets": 3,
+  "totalCA": 20000.00,           // 12000 + 8000
+  "totalDepenses": 66500.00,     // 22000 + 35000 + 9500
+  "margeTotale": -46500.00,      // 20000 - 66500
+  "alertesExpirations": 1,       // hébergement AWS (date 28/09)
+  "projetsEnRetard": 1           // Migration BDD
+}
+10.1 Liste des alertes expirations
+Endpoint : GET /api/dashboard/alerts
+
+Retourne l'hébergement du produit 2 (expire le 28/09).
+
+10.2 Liste des projets en retard
+Endpoint : GET /api/dashboard/alerts/projets-retard
+
+Retourne le projet "Migration base de données".
+
+Étape 11 – Vérification du RBAC (accès refusés)
+Avec un token COMMERCIAL, tentez GET /api/users → 403 Forbidden.
+
+Avec un token DEVELOPPEUR, tentez POST /api/bank-accounts → 403.
+
+Avec un token CONSULTATION, tentez POST /api/products → 403.
+
+Seul l'ADMIN peut créer des utilisateurs. Seuls FINANCE et ADMIN peuvent gérer les comptes.
+
+Étape 12 – Audit des opérations bancaires
+Toute lecture ou modification des comptes/mouvements a automatiquement créé une entrée dans audit_logs.
+Pour consulter ces logs, il faut un endpoint dédié (non fourni mais vous pouvez interroger la base directement).
+Exemple de lignes d'audit générées :
+
+CONSULTATION_COMPTE (lors des GET)
+
+CREATION_COMPTE (lors des POST)
+
+MODIFICATION_COMPTE (lors des PUT)
+
+SUPPRESSION_COMPTE (lors des DELETE)
+
+🎯 Ce scénario a utilisé tous les endpoints :
+Endpoint	Méthode
+/api/auth/login	POST
+/api/users	POST
+/api/products	POST
+/api/hostings	POST
+/api/pages	POST
+/api/social-networks	POST
+/api/bank-accounts	POST, GET (implicite)
+/api/bank-movements	POST
+/api/clients	POST
+/api/deployments	POST
+/api/projects	POST
+/api/dashboard/stats	GET
+/api/dashboard/alerts	GET
+/api/dashboard/alerts/projets-retard	GET
