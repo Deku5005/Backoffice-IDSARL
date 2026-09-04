@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/idsarl_db
     username: postgres
-    password: votre_mot_de_passe
+    password: Dolo700=!
     driver-class-name: org.postgresql.Driver
 
   # Configuration JPA
@@ -55,3 +55,18 @@ spring.jackson:
   serialization:
     write-dates-as-timestamps: false
   time-zone: Europe/Paris
+
+
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+  api-docs:
+    path: /v3/api-docs
+  model-and-view-allowed: true
+  pre-loading-enabled: true
+  writer-with-default-prettify: true
+  use-fqn: true
